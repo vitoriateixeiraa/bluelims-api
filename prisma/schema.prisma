@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  name String 
+  email String @unique
+  visualIdentity String?
+  password String
+  passwordToken String? @unique
+  passwordExpiresDate DateTime?
+  role Role @default(USER)
+
+  teacher String?
+  student String?
+
+  //Relação com laboratório para professores
+  teacherLaboratory Laboratory? @relation(name: "TeacherLaboratory", fields: [teacher], references: [id])
+
+
+  //Relação com laboratório para alunos
+  studentLaboratory Laboratory? @relation(name: "StudentLaboratory", fields: [student], references: [id])
+
+  @@map("user")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Laboratory {
+  id String @id @default(uuid())
+  name String
+  accessCode String @unique
+  institution String
+
+  inputs Input[] @relation(name: "inputToLaboratory")
+
+  //Lista de professores associados ao laboratório
+  teachers User[] @relation("TeacherLaboratory")
+  teacherId String?
+
+  //Lista de alunos associados ao laboratório
+  students User[] @relation("StudentLaboratory")
+  studentId String?
+
+  @@map("laboratory")
+}
+
+model Input {
+  id String @id @default(uuid())
+  name String
+  observations String
+  categories String
+  subCategories String
+  type String
+  status String
+
+  laboratoryId String
+  laboratory Laboratory @relation(name: "inputToLaboratory", fields: [laboratoryId], references: [id])
+
+  @@map("input")
+}
