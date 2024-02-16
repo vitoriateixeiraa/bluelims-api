@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { GetAllUsersUseCase } from "../../../useCases/user/getAll";
+import { GetAllUsersUseCase } from "../../useCases/user/get-all";
 
 class GetAllUsersController {
   async handle(request: Request, response: Response) {

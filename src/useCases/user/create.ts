@@ -1,12 +1,12 @@
-import { hash } from "bcryptjs";
-import { AppError } from "../../../errors";
-import { client } from "../../../lib/prisma";
+import { hash } from 'bcryptjs';
+import { AppError } from '../../errors';
+import { client } from '../../lib/prisma';
 
 interface IUserResquest {
   name: string;
   email: string;
   password: string;
-  role: "ADMIN" | "USER";
+  role: 'ADMIN' | 'USER';
   imageUrl?: string;
 }
 
@@ -17,7 +17,7 @@ class CreateUserUseCase {
     });
 
     if (userAlreadyExist) {
-      throw new AppError("Email já cadastrado");
+      throw new AppError('Email já cadastrado');
     }
 
     const passwordHash = await hash(password, 8);

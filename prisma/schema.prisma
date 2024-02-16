@@ -46,12 +46,10 @@ model Laboratory {
   inputs Input[] @relation(name: "inputToLaboratory")
 
   // Lista de professores associados ao laboratório
-  teachers  User[]  @relation("TeacherLaboratory")
-  teacherId String?
+  teachers User[] @relation("TeacherLaboratory")
 
   // Lista de alunos associados ao laboratório
-  students  User[]  @relation("StudentLaboratory")
-  studentId String?
+  students User[] @relation("StudentLaboratory")
 
   @@map("laboratory")
 }

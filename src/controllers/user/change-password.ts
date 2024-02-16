@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ChangePasswordUserUseCase } from '../../../useCases/user/changePassword';
+import { ChangePasswordUserUseCase } from '../../useCases/user/change-password';
 
 class ChangePasswordUserController {
   async handle(request: Request, response: Response) {
@@ -8,7 +8,7 @@ class ChangePasswordUserController {
 
     const changePasswordUserUseCase = new ChangePasswordUserUseCase();
 
-    const user = await changePasswordUserUseCase.execute({ id, password });
+    const { user } = await changePasswordUserUseCase.execute({ id, password });
 
     return response.status(200).json(user);
   }

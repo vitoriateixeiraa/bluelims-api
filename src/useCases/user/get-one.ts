@@ -1,5 +1,5 @@
-import { AppError } from "../../../errors";
-import { client } from "../../../lib/prisma";
+import { AppError } from "../../errors";
+import { client } from "../../lib/prisma";
 
 class GetOneUserUseCase {
   async execute(userId: string) {
