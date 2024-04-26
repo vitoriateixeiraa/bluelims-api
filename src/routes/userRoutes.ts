@@ -22,7 +22,7 @@ userRoutes.get(
 );
 userRoutes.get('/:id', getOneUserController.handle);
 userRoutes.patch(
-  '/change-password/:id',
+  '/change-password',
   verifyAuthentication,
   changePasswordUserController.handle
 );

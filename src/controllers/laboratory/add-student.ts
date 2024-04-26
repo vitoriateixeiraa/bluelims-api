@@ -9,14 +9,14 @@ class AddStudentController {
 
     const addStudentUseCase = new AddStudentUseCase();
 
-    await addStudentUseCase.execute({
+    const { id } = await addStudentUseCase.execute({
       accessCode,
       studentId: userId,
     });
 
     return response
       .status(201)
-      .json({ message: 'Aluno cadastrado com sucesso' });
+      .json({ id, message: 'Aluno cadastrado com sucesso!' });
   }
 }
 

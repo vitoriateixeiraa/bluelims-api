@@ -2,7 +2,6 @@ import { AppError } from '../../errors';
 import { client } from '../../lib/prisma';
 
 interface IUpdateInputUseCase {
-  imageUrl: string;
   name: string;
   observations: string;
   quantity: number;
@@ -11,19 +10,20 @@ interface IUpdateInputUseCase {
   type: string;
   status: string;
   id: string;
+  laboratoryId: string;
 }
 
 class UpdateInputUseCase {
   async execute({
     name,
     categories,
-    imageUrl,
     observations,
     quantity,
     status,
     subCategories,
     type,
     id,
+    laboratoryId
   }: IUpdateInputUseCase) {
     const input = await client.input.update({
       where: {
@@ -32,12 +32,12 @@ class UpdateInputUseCase {
       data: {
         name,
         categories,
-        imageUrl,
         observations,
         quantity,
         status,
         subCategories,
         type,
+        laboratoryId
       },
     });
 

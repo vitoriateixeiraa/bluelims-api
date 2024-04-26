@@ -13,6 +13,24 @@ class LoginUseCase {
   async execute({ email, password }: IRequest) {
     const user = await client.user.findFirst({
       where: { email },
+      select: {
+        id: true,
+        email: true,
+        imageUrl: true,
+        name: true,
+        role: true,
+        password: true,
+        teacherLaboratory: {
+          select: {
+            id: true,
+          },
+        },
+        studentLaboratory: {
+          select: {
+            id: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -24,6 +42,9 @@ class LoginUseCase {
     if (!passwordMatch) {
       throw new AppError('E-mail ou senha inválidos');
     }
+
+    // @ts-ignore
+    user.password = undefined;
 
     const token = sign({}, env.SECRET_KEY, {
       subject: user.id,

@@ -5,6 +5,9 @@ class GetOneInputUseCase {
   async execute(inputId: string) {
     const input = await client.input.findUnique({
       where: { id: inputId },
+      include: {
+        laboratory: true,
+      },
     });
 
     if (!input) {

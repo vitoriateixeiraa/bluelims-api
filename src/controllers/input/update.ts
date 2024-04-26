@@ -6,7 +6,6 @@ export class UpdateInputController {
     const { id } = request.params;
 
     const {
-      imageUrl,
       name,
       observations,
       quantity,
@@ -14,12 +13,12 @@ export class UpdateInputController {
       subCategories,
       type,
       status,
+      laboratoryId,
     } = request.body;
 
     const updateInputUseCase = new UpdateInputUseCase();
 
     const { input } = await updateInputUseCase.execute({
-      imageUrl,
       name,
       observations,
       quantity,
@@ -28,6 +27,7 @@ export class UpdateInputController {
       type,
       status,
       id,
+      laboratoryId,
     });
 
     return response.status(200).json(input);

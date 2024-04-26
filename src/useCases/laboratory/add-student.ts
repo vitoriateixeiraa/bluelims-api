@@ -1,3 +1,4 @@
+import { AppError } from '../../errors';
 import { client } from '../../lib/prisma';
 
 interface IAddStudentUseCase {
@@ -7,7 +8,20 @@ interface IAddStudentUseCase {
 
 class AddStudentUseCase {
   async execute({ accessCode, studentId }: IAddStudentUseCase) {
-    return await client.laboratory.update({
+    const laboratory = await client.laboratory.findUnique({
+      where: {
+        accessCode,
+      },
+      select: {
+        accessCode: true,
+      },
+    });
+
+    if (laboratory?.accessCode !== accessCode) {
+      throw new AppError('Código de acesso inválido.');
+    }
+
+    const studentLaboratory = await client.laboratory.update({
       where: {
         accessCode,
       },
@@ -18,7 +32,12 @@ class AddStudentUseCase {
           },
         },
       },
+      select: {
+        id: true,
+      },
     });
+
+    return { id: studentLaboratory.id };
   }
 }
 

@@ -23,6 +23,8 @@ CREATE TABLE "laboratory" (
     "name" TEXT NOT NULL,
     "accessCode" TEXT NOT NULL,
     "institution" TEXT NOT NULL,
+    "teacherId" TEXT,
+    "studentId" TEXT,
 
     CONSTRAINT "laboratory_pkey" PRIMARY KEY ("id")
 );

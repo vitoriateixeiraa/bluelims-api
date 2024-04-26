@@ -4,13 +4,15 @@ import { ChangePasswordUserUseCase } from '../../useCases/user/change-password';
 class ChangePasswordUserController {
   async handle(request: Request, response: Response) {
     const { password } = request.body;
-    const { id } = request.params;
+    const { userId } = request;
 
     const changePasswordUserUseCase = new ChangePasswordUserUseCase();
 
-    const { user } = await changePasswordUserUseCase.execute({ id, password });
+    await changePasswordUserUseCase.execute({ userId, password });
 
-    return response.status(200).json(user);
+    return response
+      .status(200)
+      .json({ message: 'Senha alterada com sucesso.' });
   }
 }
 

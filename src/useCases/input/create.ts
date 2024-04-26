@@ -1,17 +1,17 @@
 import { AppError } from '../../errors';
 import { client } from '../../lib/prisma';
-import { generateAccessToken } from '../../utils/generateAccessCode';
 
 interface ICreateInputUseCase {
   imageUrl: string;
   name: string;
-  observations: string;
+  observations?: string;
   quantity: number;
   categories: string;
   subCategories: string;
   type: string;
   status: string;
-  teacherId: string;
+  userId: string;
+  laboratoryId: string;
 }
 
 class CreateInputUseCase {
@@ -24,22 +24,38 @@ class CreateInputUseCase {
     status,
     subCategories,
     type,
-    teacherId,
+    laboratoryId,
+    userId,
   }: ICreateInputUseCase) {
-    const laboratory = await client.laboratory.findFirst({
-      where: {
-        teachers: {
-          some: {
-            id: teacherId,
-          },
-        },
-      },
-      select: {
-        id: true,
-      },
-    });
+    let laboratory;
 
-    if (!laboratory) {
+    if (!laboratoryId) {
+      laboratory = await client.laboratory.findFirst({
+        where: {
+          OR: [
+            {
+              teachers: {
+                some: {
+                  id: userId,
+                },
+              },
+            },
+            {
+              students: {
+                some: {
+                  id: userId,
+                },
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+        },
+      });
+    }
+
+    if (!laboratory && !laboratoryId) {
       throw new AppError('Laboratório não cadastrado');
     }
 
@@ -48,12 +64,12 @@ class CreateInputUseCase {
         name,
         categories,
         imageUrl,
-        observations,
+        observations: observations ?? '',
         quantity,
         status,
         subCategories,
         type,
-        laboratoryId: laboratory?.id,
+        laboratoryId: laboratory?.id || laboratoryId,
       },
     });
 

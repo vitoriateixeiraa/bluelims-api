@@ -16,15 +16,10 @@ const updateInputController = new UpdateInputController();
 
 const inputRoutes = Router();
 
-inputRoutes.post(
-  '/',
-  verifyAuthentication,
-  checkUserRole(['ADMIN']),
-  createInputController.handle
-);
-inputRoutes.delete('/:id', deleteInputController.handle);
-inputRoutes.get('/', getAllInputController.handle);
-inputRoutes.get('/:id', getOneInputController.handle);
-inputRoutes.put('/:id', updateInputController.handle);
+inputRoutes.post('/', verifyAuthentication, createInputController.handle);
+inputRoutes.delete('/:id', verifyAuthentication, deleteInputController.handle);
+inputRoutes.get('/', verifyAuthentication, getAllInputController.handle);
+inputRoutes.get('/:id', verifyAuthentication, getOneInputController.handle);
+inputRoutes.put('/:id', verifyAuthentication, updateInputController.handle);
 
 export { inputRoutes };

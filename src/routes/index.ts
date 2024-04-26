@@ -11,5 +11,4 @@ routes.use('/auth', authRoutes);
 routes.use('/laboratory', laboratoryRoutes);
 routes.use('/input', inputRoutes);
 
-
 export { routes };

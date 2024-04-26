@@ -20,14 +20,8 @@ model User {
   passwordExpiresDate DateTime?
   role                Role      @default(USER)
 
-  teacher String?
-  student String?
-
-  // Relação com laboratório para professores
-  teacherLaboratory Laboratory? @relation(name: "TeacherLaboratory", fields: [teacher], references: [id])
-
-  // Relação com laboratório para alunos
-  studentLaboratory Laboratory? @relation(name: "StudentLaboratory", fields: [student], references: [id])
+  teacherLaboratory Laboratory[] @relation("TeacherLaboratory")
+  studentLaboratory Laboratory[] @relation("StudentLaboratory")
 
   @@map("user")
 }
@@ -45,10 +39,7 @@ model Laboratory {
 
   inputs Input[] @relation(name: "inputToLaboratory")
 
-  // Lista de professores associados ao laboratório
   teachers User[] @relation("TeacherLaboratory")
-
-  // Lista de alunos associados ao laboratório
   students User[] @relation("StudentLaboratory")
 
   @@map("laboratory")
@@ -66,7 +57,7 @@ model Input {
   status        String
 
   laboratoryId String
-  laboratory   Laboratory @relation(name: "inputToLaboratory", fields: [laboratoryId], references: [id])
+  laboratory   Laboratory @relation(name: "inputToLaboratory", fields: [laboratoryId], references: [id], onDelete: Cascade)
 
   @@map("input")
 }

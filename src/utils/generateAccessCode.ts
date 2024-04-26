@@ -1,6 +1,6 @@
 export function generateAccessToken(length: number = 6): string {
   const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
   let accessToken = '';
 

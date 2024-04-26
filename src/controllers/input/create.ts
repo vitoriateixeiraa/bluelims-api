@@ -12,6 +12,7 @@ export class CreateInputController {
       subCategories,
       type,
       status,
+      laboratoryId,
     } = request.body;
 
     const { userId } = request;
@@ -27,7 +28,8 @@ export class CreateInputController {
       subCategories,
       type,
       status,
-      teacherId: userId,
+      userId,
+      laboratoryId,
     });
 
     return response.status(201).json({ input });
